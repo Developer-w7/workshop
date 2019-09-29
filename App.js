@@ -14,5 +14,5 @@ connectDB();
 
 
 server.listen(8081);  
-// Console will print the message  
+// Console will print the message   
 console.log('Server running at http://127.0.0.1:8081/');  
