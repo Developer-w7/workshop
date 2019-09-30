@@ -1,17 +1,39 @@
 var http = require("http");  
-const mongoose = require('mongoose')
+const express = require("express")
 const connectDB = require('./Connection')
-var server = http.createServer(function (request, response) {  
- // Send the HTTP header   
-   // HTTP Status: 200 : OK  
-   // Content Type: text/plain  
-   response.writeHead(200, {'Content-Type': 'text/plain'});  
-   // Send the response body as "Hello World"  
-   response.end('Hello World\n');  
-});
+var Users = require('./model/User')
+var routes = require('./router');
+const server = express()
+server.use(express.static('public'));
+server.set('view engine', 'ejs');
 /** connect to MongoDB datastore */
 connectDB();
+var chris = new Users({
+  name: 'Chris',
+  username: 'sevilayha',
+  password: 'password' 
+});
+// chris.dudify(function(err, name) {
+//   if (err) throw err;
 
+//   console.log('Your new name is ' + name);
+// });
+// chris.save().then(()=>{
+// console.log('saved successfully')
+// })
+// index page 
+// server.get('/', function(req, res) {
+//   res.render('pages/index');
+// });
+
+server.use('/', routes);
+// get all the users
+Users.find({name: 'Chris-dude'}, function(err, users) {
+  if (err) throw err;
+
+  // object of all the users
+  console.log(users);
+});
 
 server.listen(8081);  
 // Console will print the message   

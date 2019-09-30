@@ -4,7 +4,8 @@ const url = process.env.MONGODB_URI || "mongodb+srv://dbroot:dbroot@cluster0-rhz
 const connectDB = async() =>{
     await  mongoose.connect(url, {
         useNewUrlParser: true ,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true,
         }) 
         console.log("connection successful");
 }
