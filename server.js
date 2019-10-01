@@ -1,10 +1,10 @@
 var http = require("http");  
 const express = require("express")
-var bodyParser = require('body-parser')
 const connectDB = require('./Connection')
 var Users = require('./model/Student')
 var routes = require('./router');
 const server = express()
+var port = process.env.PORT || 8080;
 server.use(express.static('public'));
 // parse application/x-www-form-urlencoded
 
@@ -41,7 +41,7 @@ server.use('/', routes);
 //   // object of all the users
 //   console.log(users);
 // });
-let port = 5000 || process.env.PORT
+
 server.listen(port, () => {
     console.log(`Server started at port: ${port}`);
 });
