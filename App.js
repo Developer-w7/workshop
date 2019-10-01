@@ -1,18 +1,25 @@
 var http = require("http");  
 const express = require("express")
+var bodyParser = require('body-parser')
 const connectDB = require('./Connection')
-var Users = require('./model/User')
+var Users = require('./model/Student')
 var routes = require('./router');
 const server = express()
 server.use(express.static('public'));
+// parse application/x-www-form-urlencoded
+
+ 
+// parse application/json
+server.use(express.urlencoded());
+server.use(express.json())
 server.set('view engine', 'ejs');
 /** connect to MongoDB datastore */
 connectDB();
-var chris = new Users({
-  name: 'Chris',
-  username: 'sevilayha',
-  password: 'password' 
-});
+// var chris = new Users({
+//   name: 'Chris',
+//   username: 'sevilayha',
+//   password: 'password' 
+// });
 // chris.dudify(function(err, name) {
 //   if (err) throw err;
 
@@ -28,12 +35,12 @@ var chris = new Users({
 
 server.use('/', routes);
 // get all the users
-Users.find({name: 'Chris-dude'}, function(err, users) {
-  if (err) throw err;
+// Users.find({name: 'Chris-dude'}, function(err, users) {
+//   if (err) throw err;
 
-  // object of all the users
-  console.log(users);
-});
+//   // object of all the users
+//   console.log(users);
+// });
 
 server.listen(8081);  
 // Console will print the message   

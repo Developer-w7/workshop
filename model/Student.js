@@ -1,26 +1,28 @@
 // grab the things we need
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
-var userSchema = new Schema({
-    user_id:{
+var studentSchema = new Schema({
+  user_id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Article'
+        ref: 'Student'
     },
   name: String,
-  username: { type: String, required: true },
-  password: { type: String, required: true },
-  admin: Boolean,
-  location: String,
-  meta: {
-    age: Number,
-    website: String
-  },
-  created_at: Date,
-  updated_at: Date
+  age: String,
+  dob:String,
+  image_name:String,
+  address: String,
+  email: String,
+  phone: String,
+  course:String,
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now }
+
+  
 });
-userSchema.methods.dudify = function() {
+studentSchema.methods.dudify = function() {
   // add some stuff to the users name
   this.name = this.name + '-dude'; 
 
@@ -28,7 +30,7 @@ userSchema.methods.dudify = function() {
 };
 // the schema is useless so far
 // we need to create a model using it
-var Users = mongoose.model('User', userSchema);
+var Students = mongoose.model('User', studentSchema);
 
 // make this available to our users in our Node applications
-module.exports = Users;
+module.exports = Students;
