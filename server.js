@@ -42,6 +42,6 @@ server.use('/', routes);
 //   console.log(users);
 // });
 let port = 5000 || process.env.PORT
-server.listen(port);  
-// Console will print the message   
-console.log('Server running at http://127.0.0.1:8081/');  
+server.listen(port, () => {
+    console.log(`Server started at port: ${port}`);
+});
