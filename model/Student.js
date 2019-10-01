@@ -9,6 +9,10 @@ var studentSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'
     },
+  registration_number:{
+    type: String,
+    unique: true 
+  },
   name: String,
   age: String,
   dob:String,

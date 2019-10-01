@@ -21,6 +21,34 @@ var path = require('path');
 router.get('/', function (req, res) {
     res.render('pages/index');
 })
+router.get('/search', function (req, res) {
+
+    Student.find({}, function(err, data) {
+        // note that data is an array of objects, not a single object!
+        res.render('pages/search', {
+           
+            students: data
+        });
+    });
+    // res.render('pages/admin',{
+    //     user : "admin",
+    //     practices: "admin"
+    // });
+})
+router.get('/students', function (req, res) {
+
+    Student.find({}, function(err, data) {
+        // note that data is an array of objects, not a single object!
+        res.render('pages/students', {
+           
+            students: data
+        });
+    });
+    // res.render('pages/admin',{
+    //     user : "admin",
+    //     practices: "admin"
+    // });
+})
 router.get('/admin', function (req, res) {
 
     Student.find({}, function(err, data) {
@@ -35,12 +63,27 @@ router.get('/admin', function (req, res) {
     //     practices: "admin"
     // });
 })
+
+router.post('/Find', function (req, res) {
+let searchTerm  =req.body.search_term
+    Student.find({registration_number :searchTerm}, function(err, data) {
+        // note that data is an array of objects, not a single object!
+        res.render('pages/students', {
+           
+            students: data
+        });
+    });
+    // res.render('pages/admin',{
+    //     user : "admin",
+    //     practices: "admin"
+    // });
+})
 // Home page route.
 router.post('/Register', multipartMiddleware, function (req, res) {
 
-   
+    let registration_Number = Math.floor(Math.random() * (900000 - 100000) + 100000);
     let root_path =path.dirname(require.main.filename || process.mainModule.filename) 
-    var tmp_path = req.files.photo.path;
+    let tmp_path = req.files.photo.path;
     let image_name=req.files.photo.name;
     console.log("name",image_name)
     
@@ -62,17 +105,17 @@ if(image_name != ""){
    
 
  let  data=Object.assign({}, req.body, {
-    image_name: image_name
+    image_name: image_name,
+    registration_number:registration_Number
   })  
    const student = new Student(data);
    student.save()
-   .then(() => { res.send('Thank you for your registration!'); })
-   .catch((err) => { console.log(err);res.send('Sorry! Something went wrong.'); });
+   .then(() => { res.render('pages/result', {
+           message: 'Thank you for your registration!'
+}); })
+   .catch((err) => {res.send('Sorry! Something went wrong.'); });
    
 })
-// About page route.
-router.get('/about', function (req, res) {
-  res.send('About this wiki');
-})
+
 
 module.exports = router;

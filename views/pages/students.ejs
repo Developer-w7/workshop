@@ -12,12 +12,28 @@
   
   </head>
   <body style="font-family: 'Abel', sans-serif;">
-    <div class="col-md-6 offset-3 student-list" style="text-align: center">
-           <h2 class="text-center h2" >Admin Dashboard</h2>
-        
-     <a type="button" class="btn btn-info" href="/students">View All Students</a>
-     <a type="button" class="btn btn-info" href="/search">Search By Registration Number</a>
-           
+    <div class="col-md-6 offset-3 student-list" >
+           <h2 class="text-center h2" >Student List</h2>
+           <% if(students.length == 0){%>
+            <div class="row justify-content-center align-items-center list-style">
+            <p>Sorry No Results Found</p>
+          </div>
+           <% } %>
+     
+              <% students.map((val)=>{ %>
+                <div class="row justify-content-center align-items-center list-style">
+                <div class="col-md-4 "> <img src="<%= 'images/'+ val.image_name %>" alt="" class="rounded-circle img-thumbnail img-fluid mx-auto d-block" style="width:150px;height:150px" ></div>
+                <div class="col-md-8"> <p>Name: <%= val.name %></p>
+                <p>Registration Number: <%= val.registration_number %></p>
+                <p>Age: <%= val.age %></p>
+                <p>Date of birth: <%= val.dob %></p>
+                <p>Phone Number: <%= val.phone %></p>
+                <p>Email ID: <%= val.email %></p>
+                <p>Address: <%= val.address %></p>
+                <p>Course: <%= val.course %></p>
+              </div>
+            </div>
+              <% }) %>
             </div>
     
     

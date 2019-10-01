@@ -9,15 +9,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style/style.css">
     <title>Hello, world!</title>
-  
+   
   </head>
   <body style="font-family: 'Abel', sans-serif;">
-    <div class="col-md-6 offset-3 student-list" style="text-align: center">
-           <h2 class="text-center h2" >Admin Dashboard</h2>
-        
-     <a type="button" class="btn btn-info" href="/students">View All Students</a>
-     <a type="button" class="btn btn-info" href="/search">Search By Registration Number</a>
-           
+    <div class="col-md-6 offset-3 result" >
+          
+          
+           <% if(message != ""){%>
+
+            <div class="row justify-content-center align-items-center result-style">
+            <p> <%= message %></p>
+          </div>
+           <% } %>
+           <div class="row text-center" >
+           <a type="button" style="display: block;margin: 0 auto" class="btn btn-info" href="/">Go Back</a>
+           </div>   
             </div>
     
     
