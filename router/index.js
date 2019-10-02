@@ -131,6 +131,7 @@ if(image_name != ""){
    const student = new Student(data);
    student.save()
    .then(() => { res.render('pages/result', {
+           page:'/',
            message: 'Thank you for your registration!'
 }); })
    .catch((err) => {res.send('Sorry! Something went wrong.'); });
@@ -163,6 +164,7 @@ updateRecord = (req, res) => {
     Student.findOneAndUpdate({ registration_number: req.body.reg_number },data, { new: true }, (err, data) => {
         if (!err) {
             res.render('pages/result', {
+                page:'/admin',
                 message: 'Successfully Updated!'
      })
         }
