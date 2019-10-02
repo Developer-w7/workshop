@@ -22,8 +22,13 @@
      
               <% students.map((val)=>{ %>
                 <div class="row justify-content-center align-items-center list-style">
+
                 <div class="col-md-4 "> <img src="<%= 'images/'+ val.image_name %>" alt="" class="rounded-circle img-thumbnail img-fluid mx-auto d-block" style="width:150px;height:150px" ></div>
-                <div class="col-md-8"> <p>Name: <%= val.name %></p>
+                <div class="col-md-8">
+                
+                <a style="float: right;padding-left: 10px" href="/delete/<%= val.registration_number %>" onclick="return confirm('Are you sure to delete this record ?');"><i style="color:#fff" class="fa fa-trash fa-lg" aria-hidden="true"></i></a> 
+                <a style="float: right;" href="/update/<%= val.registration_number %>"><i  style="color:#fff" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                <p>Name: <%= val.name %></p>
                 <p>Registration Number: <%= val.registration_number %></p>
                 <p>Age: <%= val.age %></p>
                 <p>Date of birth: <%= val.dob %></p>
@@ -31,8 +36,7 @@
                 <p>Email ID: <%= val.email %></p>
                 <p>Address: <%= val.address %></p>
                 <p>Course: <%= val.course %></p>
-                <a href="/update/<%= val.registration_number %>"><i  style="color:#fff" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
-                <a href="/delete/<%= val.registration_number %>" onclick="return confirm('Are you sure to delete this record ?');"><i style="color:#fff" class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
+               
               </div>
             </div>
               <% }) %>
