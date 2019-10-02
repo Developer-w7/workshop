@@ -5,21 +5,11 @@ var router = express.Router();
 var Student = require('../model/Student')
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
-var formidable = require('formidable');
 var fs = require('fs');
 var path = require('path');
-// // route middleware that will happen on every request
-// router.use(function(req, res, next) {
 
-//     // log each request to the console
-//     console.log(req.method, req.url);
-
-//     // continue doing what we were doing and go to the route
-//     next(); 
-// });
-// Home page route.
 router.get('/', function (req, res) {
-    res.render('pages/index');
+    res.render('pages/index',{reg_no:"",students:null});
 })
 router.get('/search', function (req, res) {
 
@@ -30,12 +20,9 @@ router.get('/search', function (req, res) {
             students: data
         });
     });
-    // res.render('pages/admin',{
-    //     user : "admin",
-    //     practices: "admin"
-    // });
+    
 })
-router.get('/students', function (req, res) {
+router.get('/students/', function (req, res) {
 
     Student.find({}, function(err, data) {
         // note that data is an array of objects, not a single object!
@@ -44,11 +31,33 @@ router.get('/students', function (req, res) {
             students: data
         });
     });
-    // res.render('pages/admin',{
-    //     user : "admin",
-    //     practices: "admin"
-    // });
+   
 })
+
+
+router.get('/update/:id', (req, res) => {
+    Student.find({registration_number:req.params.id}, (err, data) => {
+        if (!err) {
+            res.render('pages/index', {
+           
+                reg_no: req.params.id,
+                students: data
+            });
+        }
+        else { console.log('Error in employee delete :' + err); }
+    });
+});
+
+
+router.get('/delete/:id', (req, res) => {
+    Student.findOneAndRemove({registration_number:req.params.id}, (err, data) => {
+        if (!err) {
+            res.redirect('/students');
+        }
+        else { console.log('Error in employee delete :' + err); }
+    });
+})
+
 router.get('/admin', function (req, res) {
 
     Student.find({}, function(err, data) {
@@ -58,14 +67,14 @@ router.get('/admin', function (req, res) {
             students: data
         });
     });
-    // res.render('pages/admin',{
-    //     user : "admin",
-    //     practices: "admin"
-    // });
+  
 })
 
 router.post('/Find', function (req, res) {
+    
 let searchTerm  =req.body.search_term
+console.log(searchTerm)
+if(searchTerm != null){
     Student.find({registration_number :searchTerm}, function(err, data) {
         // note that data is an array of objects, not a single object!
         res.render('pages/students', {
@@ -73,13 +82,24 @@ let searchTerm  =req.body.search_term
             students: data
         });
     });
-    // res.render('pages/admin',{
-    //     user : "admin",
-    //     practices: "admin"
-    // });
+}else{
+    res.send('Sorry! Something went wrong.'); 
+}
+    
+ 
 })
-// Home page route.
+
 router.post('/Register', multipartMiddleware, function (req, res) {
+
+    if (req.body.reg_number == '')
+    insertRecord(req, res);
+    else
+    updateRecord(req, res);
+
+
+   
+})
+insertRecord = (req, res) => {
 
     let registration_Number = Math.floor(Math.random() * (900000 - 100000) + 100000);
     let root_path =path.dirname(require.main.filename || process.mainModule.filename) 
@@ -114,8 +134,20 @@ if(image_name != ""){
            message: 'Thank you for your registration!'
 }); })
    .catch((err) => {res.send('Sorry! Something went wrong.'); });
-   
-})
+}
 
+
+updateRecord = (req, res) => {
+    Student.findOneAndUpdate({ registration_number: req.body.reg_number }, req.body, { new: true }, (err, doc) => {
+        if (!err) {
+            res.render('pages/result', {
+                message: 'Successfully Updated!'
+     })
+        }
+        else {
+            console.log('Error Updating :' + err);
+        }
+    });
+}
 
 module.exports = router;

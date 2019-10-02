@@ -5,11 +5,12 @@ var Users = require('./model/Student')
 var routes = require('./router');
 const server = express()
 var port = process.env.PORT || 8080;
+// server.use(express.static(__dirname + '/public'));
 server.use(express.static('public'));
 // parse application/x-www-form-urlencoded
 
 // parse application/json
-server.use(express.urlencoded());
+//server.use(express.urlencoded());
 server.use(express.json())
 server.set('view engine', 'ejs');
 /** connect to MongoDB datastore */
