@@ -138,7 +138,29 @@ if(image_name != ""){
 
 
 updateRecord = (req, res) => {
-    Student.findOneAndUpdate({ registration_number: req.body.reg_number }, req.body, { new: true }, (err, doc) => {
+  
+    let root_path =path.dirname(require.main.filename || process.mainModule.filename) 
+    let tmp_path = req.files.photo.path;
+    let image_name=req.files.photo.name;
+    if(image_name != ""){
+        var target_path = root_path + '/public/images/' + req.files.photo.name;
+        fs.readFile(tmp_path, function (err, data) {
+            if (err) throw err;
+            console.log('File read!');
+    
+            // Write the file
+            fs.writeFile(target_path, data, function (err) {
+                if (err) throw err;
+                
+                console.log('File written!');
+            });
+    
+        });
+    }
+    let  data=Object.assign({}, req.body, {
+        image_name: image_name
+      })  
+    Student.findOneAndUpdate({ registration_number: req.body.reg_number },data, { new: true }, (err, data) => {
         if (!err) {
             res.render('pages/result', {
                 message: 'Successfully Updated!'
